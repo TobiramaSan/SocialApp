@@ -5,6 +5,8 @@ import { Home } from "./_root/pages";
 import SignUpForms from "./_auth/forms/SignUpForms";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
+// import { useToast } from "@/components/ui/use-toast"
+import { Toaster } from "./components/ui/toaster";
 
 const App = () => {
   return (
@@ -20,6 +22,8 @@ const App = () => {
         </Route>
         {/* private routes */}
       </Routes>
+
+      <Toaster />
     </main>
   );
 };
