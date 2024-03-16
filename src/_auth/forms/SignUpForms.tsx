@@ -17,7 +17,10 @@ import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
 // import { createUserAccount } from "@/lib/appwrite/api";
 import { useToast } from "@/components/ui/use-toast";
-import { useCreateUserAccount } from "@/lib/react-queries/queriesAndMutations";
+import {
+  useCreateUserAccount,
+  useSignInAccount,
+} from "@/lib/react-queries/queriesAndMutations";
 
 const SignUpForms = () => {
   // const isLoading = false;
@@ -26,6 +29,10 @@ const SignUpForms = () => {
     mutateAsync: createUserAccount, //changes name from mutateAsync to createUserAccount
     isLoading: isCreatingUser, //changes name from isLoading to isCreatingUser
   } = useCreateUserAccount();
+  const {
+    mutateAsync: signInAccount, //changes name from mutateAsync to createUserAccount
+    isLoading: isSigningIn, //changes name from isLoading to isCreatingUser
+  } = useSignInAccount();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof signupValidation>>({
@@ -51,7 +58,17 @@ const SignUpForms = () => {
     }
     console.log(newUser);
 
-    // const session = await signInAccount()
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    });
+    if (!session) {
+      return toast({
+        title: "Oops! Sign In failed. Please try again.",
+        // description: `Please check that you entered the correct email address'
+      });
+    }
+    //storing the session
   }
   return (
     <Form {...form}>
